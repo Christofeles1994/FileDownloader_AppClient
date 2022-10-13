@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="assets\**" />
+    <EmbeddedResource Remove="assets\**" />
+    <None Remove="assets\**" />
+    <Page Remove="assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="cleanIMG.png" />
+    <None Remove="settingsIMG.png" />
+    <None Remove="transmitIMG.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonActions\CommonActions.csproj" />
+    <ProjectReference Include="..\ServiceDownloadAPI\ServiceDownloadAPI.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+  [
+    {
+      "Id": 406,
+      "Description": "Invalid URL"
+    },
+    {
+      "Id": 408,
+      "Description": "Time Out"
+    }
+  ]
