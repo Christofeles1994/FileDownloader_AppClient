@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceDownloadAPI.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace ServiceDownloadAPI.Interfaces
         /// <summary>
         /// Interface of sort strings values of file features for singular http path of a file
         /// </summary>
-        /// <param name="cadena"></param>
+        /// <param name="chain"></param>
         /// <param name="url"></param>
         /// <returns></returns>
-        public string[] PrepareDownloadFilePath(string cadena, string url);
+        public PathsDTO PrepareDownloadFilePath(string chain, string url);
     }
 }

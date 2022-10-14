@@ -1,4 +1,5 @@
-﻿using ServiceDownloadAPI.Interfaces;
+﻿using CommonActions.Enums;
+using ServiceDownloadAPI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,7 @@ namespace ServiceDownloadAPI.Classes
             }
             else
             {
-                const string PATTERN = @"href\s*=\s*(?:[""'](?<1>[^""']*)[""']|(?<1>[^>\s]+))";
-                //const string PATTERN = @"a href=""(?<link>.+?)"""; 
+                const string PATTERN = HRefPattern.HREF_PATTERN;
 
                 Regex regex = new Regex(PATTERN, RegexOptions.IgnoreCase);
                 TextReader TR = new StreamReader(e.Result);

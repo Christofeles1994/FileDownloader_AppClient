@@ -12,47 +12,50 @@ namespace ServiceDownloadAPI.Classes
         /// <summary>
         /// Method that write downloaded file details from a specific directory
         /// </summary>
-        /// <param name="filesStoragePath"></param>
-        public void WriteFilesDetails(string filesStoragePath)
+        /// <param name="root"></param>
+        public void WriteFilesDetails(string root)
         {
-            StringBuilder filesSummary = new StringBuilder();
-            string fileName = @"" + filesStoragePath + "\\DownloadDetailInfo.txt";
-            //MessageBox.Show("Download completed!");
-            foreach (string file in Directory.GetFiles(filesStoragePath))
+            string fileName;
+            foreach (string dir in Directory.GetDirectories(root, "*", SearchOption.AllDirectories))
             {
-                FileInfo oFileInfo = new FileInfo(file);
-                if (oFileInfo != null || oFileInfo.Length == 0)
+                fileName = @"" + dir + "\\DownloadDetailInfo.txt";
+                StringBuilder filesSummary = new StringBuilder();
+                foreach (string file in Directory.GetFiles(dir))
                 {
-                    filesSummary.AppendLine("FILE NAME: " + oFileInfo.Name);
-                    filesSummary.AppendLine("EXTENSION: " + oFileInfo.Extension);
-                    filesSummary.AppendLine("SIZE: " + oFileInfo.Length + " Bytes");
-                    filesSummary.AppendLine("LAST MODIFIED DATE: " + oFileInfo.LastWriteTime);
-                    filesSummary.AppendLine("----------------------------------------------------------------");
+                    FileInfo oFileInfo = new FileInfo(file);
+                    if (oFileInfo != null || oFileInfo.Length == 0)
+                    {
+                        filesSummary.AppendLine("FILE NAME: " + oFileInfo.Name);
+                        filesSummary.AppendLine("EXTENSION: " + oFileInfo.Extension);
+                        filesSummary.AppendLine("SIZE: " + oFileInfo.Length + " Bytes");
+                        filesSummary.AppendLine("LAST MODIFIED DATE: " + oFileInfo.LastWriteTime);
+                        filesSummary.AppendLine("----------------------------------------------------------------");
+
+                    }
+                }
+                try
+                {
+                    // Check if file already exists. If yes, delete it.     
+                    if (File.Exists(fileName))
+                    {
+                        File.Delete(fileName);
+                    }
+                    // Create a new file     
+                    using (StreamWriter sw = File.CreateText(fileName))
+                    {
+                        sw.WriteLine(filesSummary.ToString());
+                        sw.WriteLine("");
+                        sw.WriteLine("");
+                        sw.WriteLine("Done! ");
+                    }
 
                 }
-            }
-
-            try
-            {
-                // Check if file already exists. If yes, delete it.     
-                if (File.Exists(fileName))
+                catch (Exception Ex)
                 {
-                    File.Delete(fileName);
+                    Console.WriteLine(Ex.ToString());
                 }
-                // Create a new file     
-                using (StreamWriter sw = File.CreateText(fileName))
-                {
-                    sw.WriteLine(filesSummary.ToString());
-                    sw.WriteLine("");
-                    sw.WriteLine("");
-                    sw.WriteLine("Done! ");
-                }
-
             }
-            catch (Exception Ex)
-            {
-                Console.WriteLine(Ex.ToString());
-            }
+            
         }
     }
 }

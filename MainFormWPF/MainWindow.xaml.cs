@@ -2,6 +2,7 @@
 using CommonActions.Interfaces;
 using Microsoft.VisualBasic;
 using ServiceDownloadAPI.Classes;
+using ServiceDownloadAPI.DTO;
 using ServiceDownloadAPI.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -141,8 +142,8 @@ namespace MainFormWPF
             foreach (Match match in MC)
             {
                 IPrepareDownloadFilePath prepDownloadFile = new PrepareDownloadFilePath();
-                var paths = prepDownloadFile.PrepareDownloadFilePath(match.Value, url3Txt.Text);
-                DownloadFile(paths);
+                var pathsDTO = prepDownloadFile.PrepareDownloadFilePath(match.Value, url3Txt.Text);
+                DownloadFile(pathsDTO);
             }
             TR.Close();
         }
@@ -151,32 +152,59 @@ namespace MainFormWPF
         /// Method that send a specific file path and download to a specific directory
         /// </summary>
         /// <param name="paths"></param>
-        private void DownloadFile(string[] paths)
+        private void DownloadFile(PathsDTO pathsDTO)
         {
-            string cadena = paths[0];
-            string tempPath = paths[1];
-            string directory = paths[2];
-            string web = paths[3];
-            string host = paths[4];
+            string chain = pathsDTO.chain;
+            string tempPath = pathsDTO.tempPath;
+            string directory = pathsDTO.directory;
+            string web = pathsDTO.web;
+            string host = pathsDTO.host;
             IReadLocalPath ReadLocalPath = new ReadLocalPath();
-            
+            string currentTempPath;
+            string fileStoraged;
 
-            if (!string.IsNullOrEmpty(cadena))
+            var pathToSace = @"" + ReadLocalPath.GetLocalPathValue() + "\\" + host + directory;
+
+            if (!string.IsNullOrEmpty(chain))
             {
-                string currentTempPath = web + tempPath + cadena;
-                var pathToSace = @""+ ReadLocalPath.GetLocalPathValue()+ "\\" + host + directory;
-
-                WebClient webClient1 = new WebClient();
-                webClient1.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                webClient1.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                if (!Directory.Exists(pathToSace))
-                {
-                    Directory.CreateDirectory(pathToSace);
-                }
-                string fileStoraged = pathToSace + currentTempPath.Split('/')[currentTempPath.Split('/').Length - 1];
+                currentTempPath = web + tempPath + chain;
+                this.SendCreateDirectory(pathToSace);
+                fileStoraged = pathToSace + currentTempPath.Split('/')[currentTempPath.Split('/').Length - 1];
                 this.filesStoragePath = pathToSace;
-                webClient1.DownloadFileAsync(new Uri(currentTempPath), fileStoraged);
+                this.StartDownload(new Uri(currentTempPath), fileStoraged);
             }
+            else if(string.IsNullOrEmpty(chain) && !string.IsNullOrEmpty(pathsDTO.currentTempPath))
+            {
+                currentTempPath = pathsDTO.currentTempPath;
+                this.SendCreateDirectory(pathToSace);
+                fileStoraged = pathToSace + currentTempPath.Split('/')[currentTempPath.Split('/').Length - 1];
+                this.filesStoragePath = pathToSace;
+                this.StartDownload(new Uri(currentTempPath), fileStoraged);
+            }
+            
+        }
+
+        /// <summary>
+        /// Begin the task for download
+        /// </summary>
+        /// <param name="currentTempPath"></param>
+        /// <param name="fileStoraged"></param>
+        private void StartDownload(Uri currentTempPath, string fileStoraged)
+        {
+            WebClient webClient1 = new WebClient();
+            webClient1.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+            webClient1.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+            webClient1.DownloadFileAsync(currentTempPath, fileStoraged);
+        }
+
+        /// <summary>
+        /// Create a directory provided by a path
+        /// </summary>
+        /// <param name="pathToSave"></param>
+        private void SendCreateDirectory(string pathToSave)
+        {
+            ICreateDirectory createDir = new CreateDirectory();
+            createDir.CreateDirectory(pathToSave);
         }
 
         /// <summary>
@@ -197,8 +225,7 @@ namespace MainFormWPF
         /// <param name="e"></param>
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            IWriteFilesDetailsFromDirectory detailInfo = new WriteFilesDetailsFromDirectory();
-            detailInfo.WriteFilesDetails(this.filesStoragePath);
+            
         }
 
         /// <summary>
@@ -261,5 +288,13 @@ namespace MainFormWPF
             }
         }
 
+        private void cmdGetInfoDetails_Click(object sender, RoutedEventArgs e)
+        {
+            IReadLocalPath ReadLocalPath = new ReadLocalPath();
+            var root = ReadLocalPath.GetLocalPathValue();
+            IWriteFilesDetailsFromDirectory detailInfo = new WriteFilesDetailsFromDirectory();
+            detailInfo.WriteFilesDetails(root);
+            MessageBox.Show("Info Complete !");
+        }
     }
 }

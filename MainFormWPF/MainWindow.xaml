@@ -21,8 +21,9 @@
         </WrapPanel>
         <WrapPanel x:Name="PanelCommand" Margin="681,0,0,0" Background="#FFE2E2E2" >
             <Button x:Name="cmdTransmit" Content="Transmit" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,50,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="20" Click="cmdTransmit_Click" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <Button x:Name="cmdClean" Content="Clean" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,100,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="20" Click="cmdClean_Click" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"/>
-            <Button x:Name="cmdSet" Content="Settings" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,100,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="20" Click="cmdSet_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
+            <Button x:Name="cmdGetInfoDetails" Content="Get Info Details" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,40,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="18" Click="cmdGetInfoDetails_Click" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+            <Button x:Name="cmdClean" Content="Clean" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,40,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="20" Click="cmdClean_Click" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"/>
+            <Button x:Name="cmdSet" Content="Settings" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="50,40,0,0" VerticalAlignment="Top" Height="47" Width="130" FontSize="20" Click="cmdSet_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
         </WrapPanel>
     </Grid>
 
