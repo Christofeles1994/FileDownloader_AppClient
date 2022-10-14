@@ -1,0 +1,10 @@
+[
+  {
+    "Id": 400,
+    "Description": "Bad Request"
+  },
+  {
+    "Id": 404,
+    "Description": "not Found"
+  }
+]
