@@ -18,7 +18,7 @@ Use a SOLID design pattern.
 
 ## Installation
 
-Open the MainFormWPF.exe located in "bin\Release\net6.0-windows\publish".
+Open the MainFormWPF.exe located in "bin\Release\net6.0-windows\publish". You can open via powershell typing ".\MainFormWPF.exe"
 
 ## For Debugging purpose
 
@@ -30,7 +30,7 @@ At the main frame click on Settings Button. Then appears a second frame with a t
 
 Finally return to the main frame and fill the blanc spot for url y press Transmit Button.
 
-Wait until the progress bar is completed.
+Wait until the progress bar is completed, Then press on "Get Info Details" to get all file details within directories.
 
 Navigate to the download's destination path, you will notice the files and an info file called "DownloadDetailInfo". This file contains a detailed information of each file in that directory.
 
